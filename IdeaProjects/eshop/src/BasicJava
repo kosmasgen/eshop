@@ -1,0 +1,9 @@
+import java.until.Scaner;
+
+public class BasicJava {
+    public static void main(String[] args) {
+    // dimioyrgia Scanner gia eisodo apo ton xristi
+    Scaner scaner
+    }
+
+}
