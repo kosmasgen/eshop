@@ -10,6 +10,8 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     // Διορθωμένο query για την αναζήτηση παραγγελιών με το όνομα του προϊόντος
     List<Order> findByProductProductNameContainingIgnoreCase(String productName);
+    List<Order> findAll();
+    List<Order> findBySupplierId(Integer supplierId);
 }
 
 

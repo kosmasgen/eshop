@@ -21,7 +21,7 @@ public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Integer id;
 
     @Column(name = "first_name", length = 15, nullable = false)
     private String firstName;
@@ -32,7 +32,7 @@ public class Supplier {
     @Column(name = "telephone", length = 13, nullable = false)
     private String telephone;
 
-    @Column(name = "afm", length = 9, nullable = false)
+    @Column(name = "afm", length = 9, nullable = false, unique = true )
     private String afm;
 
     @Column(name = "location", length = 100, nullable = false)
@@ -42,14 +42,6 @@ public class Supplier {
     private List<Product> products;
 
 
-
-    public Supplier(String firstName, String lastName, String telephone, String afm, String location) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.telephone = telephone;
-        this.afm = afm;
-        this.location = location;
-    }
     @Override
     public String toString() {
         return "Προμηθευτής {" +

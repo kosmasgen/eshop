@@ -24,8 +24,18 @@ public class SupplierMapper {
         return modelMapper.map(supplierDTO, Supplier.class);
     }
 
-    // Ενημέρωση του Supplier με τα δεδομένα από το SupplierDTO
+    // Ενημέρωση του Supplier με τα δεδομένα από το SupplierDTO (χειροκίνητα)
     public void updateEntityFromDTO(SupplierDTO supplierDTO, Supplier supplier) {
-        modelMapper.map(supplierDTO, supplier);  // Χρησιμοποιεί το ModelMapper για να ενημερώσει το supplier
+        // Έλεγχος αν το ID στο DTO είναι διαφορετικό από το ID της οντότητας
+        if (supplierDTO.getId() != null && !supplierDTO.getId().equals(supplier.getId())) {
+            throw new IllegalArgumentException("Δεν επιτρέπεται αλλαγή του ID.");
+        }
+
+        // Ενημέρωση των πεδίων χειροκίνητα
+        supplier.setFirstName(supplierDTO.getFirstName());
+        supplier.setLastName(supplierDTO.getLastName());
+        supplier.setTelephone(supplierDTO.getTelephone());
+        supplier.setAfm(supplierDTO.getAfm());
+        supplier.setLocation(supplierDTO.getLocation());
     }
 }

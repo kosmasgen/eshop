@@ -27,10 +27,6 @@ public class ProductCategory {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product> products;
 
-    // Κατασκευαστές και μέθοδοι getter και setter
-    public ProductCategory(String name) {
-        this.name = name;
-    }
 
     @Override
     public String toString() {

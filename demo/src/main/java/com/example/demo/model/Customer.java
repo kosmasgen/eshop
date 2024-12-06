@@ -21,7 +21,7 @@ public class Customer{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "first_name", length = 15, nullable = false)
     private String firstName;
@@ -32,7 +32,7 @@ public class Customer{
     @Column(name = "telephone", length = 13, nullable = false)
     private String telephone;
 
-    @Column(name = "afm", length = 9 , nullable = false)
+    @Column(name = "afm", length = 9 , nullable = false , unique = true)
     private String afm;
 
     @Column(name = "wholesale", nullable = false)
@@ -43,16 +43,7 @@ public class Customer{
 
 
 
-    public Customer(String firstName, String lastName, String telephone, String afm, boolean wholesale
-            , double balance) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.telephone = telephone;
-        this.afm = afm;
-        this.wholesale = wholesale;
-        this.balance = balance;
-
-    }@Override
+    @Override
     public String toString() {
         return "Πελάτης {" +
                 "ID=" + id +

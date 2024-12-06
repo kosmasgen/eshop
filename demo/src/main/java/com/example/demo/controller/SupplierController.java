@@ -2,11 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.SupplierDTO;
 import com.example.demo.service.SupplierService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -15,46 +14,64 @@ public class SupplierController {
 
     private final SupplierService supplierService;
 
-    // Εισάγουμε το SupplierService μέσω Dependency Injection
-    @Autowired
     public SupplierController(SupplierService supplierService) {
         this.supplierService = supplierService;
     }
 
-    // Δημιουργία νέου προμηθευτή
+    // Δημιουργία Προμηθευτή
     @PostMapping
-    public ResponseEntity<SupplierDTO> createSupplier(@RequestBody SupplierDTO supplierDTO) {
+    public ResponseEntity<SupplierDTO> createSupplier(@Validated @RequestBody SupplierDTO supplierDTO) {
         SupplierDTO createdSupplier = supplierService.createSupplier(supplierDTO);
-        return new ResponseEntity<>(createdSupplier, HttpStatus.CREATED);
+        return ResponseEntity.ok(createdSupplier);
     }
 
-    // Ανάκτηση όλων των προμηθευτών
+    // Ενημέρωση Προμηθευτή
+    @PutMapping("/{id}")
+    public ResponseEntity<SupplierDTO> updateSupplier(@PathVariable int id, @Validated @RequestBody SupplierDTO supplierDTO) {
+        SupplierDTO updatedSupplier = supplierService.updateSupplier(id, supplierDTO);
+        return ResponseEntity.ok(updatedSupplier);
+    }
+
+    // Διαγραφή Προμηθευτή
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteSupplier(@PathVariable int id) {
+        supplierService.deleteSupplier(id);
+        return ResponseEntity.ok("Ο προμηθευτής διαγράφηκε επιτυχώς.");
+    }
+
+    // Εύρεση Προμηθευτή με ID
+    @GetMapping("/{id}")
+    public ResponseEntity<SupplierDTO> getSupplierById(@PathVariable int id) {
+        SupplierDTO supplierDTO = supplierService.getSupplierById(id);
+        return ResponseEntity.ok(supplierDTO);
+    }
+
+    // Εύρεση Όλων των Προμηθευτών
     @GetMapping
     public ResponseEntity<List<SupplierDTO>> getAllSuppliers() {
         List<SupplierDTO> suppliers = supplierService.getAllSuppliers();
-        return new ResponseEntity<>(suppliers, HttpStatus.OK);
+        return ResponseEntity.ok(suppliers);
     }
 
-    // Ανάκτηση προμηθευτή με βάση το ID
-    @GetMapping("/{id}")
-    public ResponseEntity<SupplierDTO> getSupplierById(@PathVariable("id") int id) {
-        SupplierDTO supplier = supplierService.getSupplierById(id);
-        return new ResponseEntity<>(supplier, HttpStatus.OK);
+    // Αναζήτηση Προμηθευτών με Όνομα ή Τμήμα Ονόματος
+    @GetMapping("/search/name")
+    public ResponseEntity<List<SupplierDTO>> findSuppliersByName(@RequestParam String name) {
+        List<SupplierDTO> suppliers = supplierService.findSuppliersByName(name);
+        return ResponseEntity.ok(suppliers);
     }
 
-    // Ενημέρωση προμηθευτή με βάση το ID
-    @PutMapping("/{id}")
-    public ResponseEntity<SupplierDTO> updateSupplier(
-            @PathVariable("id") int id,
-            @RequestBody SupplierDTO supplierDTO) {
-        SupplierDTO updatedSupplier = supplierService.updateSupplier(id, supplierDTO);
-        return new ResponseEntity<>(updatedSupplier, HttpStatus.OK);
+    // Αναζήτηση Προμηθευτών με Τοποθεσία
+    @GetMapping("/search/location")
+    public ResponseEntity<List<SupplierDTO>> findSuppliersByLocation(@RequestParam String location) {
+        List<SupplierDTO> suppliers = supplierService.findSuppliersByLocation(location);
+        return ResponseEntity.ok(suppliers);
     }
-
-    // Διαγραφή προμηθευτή με βάση το ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSupplier(@PathVariable("id") int id) {
-        supplierService.deleteSupplier(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @GetMapping("/{supplierId}/turnover")
+    public ResponseEntity<Double> calculateTurnover(
+            @PathVariable Integer supplierId,
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate) {
+        Double turnover = supplierService.calculateTurnover(supplierId, startDate, endDate);
+        return ResponseEntity.ok(turnover);
     }
 }

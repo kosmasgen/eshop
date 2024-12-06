@@ -21,7 +21,19 @@ public class CustomerMapper {
         return modelMapper.map(customer, CustomerDTO.class); // Χρησιμοποιεί το ModelMapper για τη χαρτογράφηση.
     }
 
+
     public Customer toEntity(CustomerDTO customerDTO) {
         return modelMapper.map(customerDTO, Customer.class); // Χρησιμοποιεί το ModelMapper για τη χαρτογράφηση.
+    }
+    public  void  updateEntityFromDTO(CustomerDTO customerDTO, Customer customer) {
+        if (customerDTO.getId() != null &&! customerDTO.getId().equals(customer.getId())) {
+            throw new IllegalArgumentException("Δεν επιτρέπεται αλλαγή του ID.");
+        }
+        customer.setFirstName(customerDTO.getFirstName());
+        customer.setLastName(customerDTO.getLastName());
+        customer.setTelephone(customerDTO.getTelephone());
+        customer.setAfm(customerDTO.getAfm());
+        customer.setWholesale(customerDTO.isWholesale());
+        customer.setBalance(customerDTO.getBalance());
     }
 }

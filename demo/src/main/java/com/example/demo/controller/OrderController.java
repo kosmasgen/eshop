@@ -23,7 +23,13 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrderDTO createOrder(@RequestBody OrderDTO orderDTO) {
-        return orderService.createOrderWithProductAndQuantity(orderDTO.getProduct().getId(), orderDTO.getQuantity());
+        if (orderDTO.getProductId() <= 0) {
+            throw new IllegalArgumentException("Το productId είναι υποχρεωτικό.");
+        }
+        if (orderDTO.getQuantity() <= 0) {
+            throw new IllegalArgumentException("Η ποσότητα πρέπει να είναι μεγαλύτερη από το μηδέν.");
+        }
+        return orderService.createOrderWithProductAndQuantity(orderDTO.getProductId(), orderDTO.getQuantity());
     }
 
     // Λήψη παραγγελίας με βάση το ID
@@ -49,5 +55,9 @@ public class OrderController {
     @GetMapping("/search")
     public List<OrderDTO> searchOrders(@RequestParam String productName) {
         return orderService.searchOrders(productName);
+    }
+    @GetMapping
+    public List<OrderDTO> getAllOrders() {
+        return orderService.getAllOrders();
     }
 }

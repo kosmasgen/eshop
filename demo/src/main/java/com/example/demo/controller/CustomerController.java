@@ -14,7 +14,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    // Εξάρτηση από το CustomerService για επιχειρηματική λογική
+
     @Autowired
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;

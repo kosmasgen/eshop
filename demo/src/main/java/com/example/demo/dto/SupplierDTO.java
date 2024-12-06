@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class SupplierDTO {
-    private int id;
+    private Integer id;
     private String firstName;
     private String lastName;
     private String telephone;

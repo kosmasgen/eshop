@@ -31,11 +31,6 @@ public class SupplierProduct {
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    public SupplierProduct(int supplierId, int productId, int quantity) {
-        this.supplierId = supplierId;
-        this.productId = productId;
-        this.quantity = quantity;
-    }
     @Override
     public String toString() {
         return "Προμηθευτής - Προϊόν {" +
